@@ -40,10 +40,6 @@
       <img class="icon" src="icons/apple-touch-icon.png" alt="">
       <h1>Финансы 3D</h1>
       <p id="statusText">Открываю приложение…</p>
-      <div id="install" hidden>
-        <p>Добавьте эту страницу на экран «Домой». После запуска с иконки приложение откроется автоматически.</p>
-        <a id="installOpen" class="button" href="#">Открыть приложение сейчас</a>
-      </div>
       <div id="setup" hidden>
         <p>Укажите ссылку веб-приложения. Она сохранится только на этом устройстве.</p>
         <form class="setup-form" id="setupForm">
@@ -64,7 +60,7 @@
   <script>
     (() => {
       'use strict';
-      const config={"appUrl":"https://script.google.com/macros/s/AKfycbyVOrsLbC_e8QPvA47yUhxMsC8RFSEs3GTvTu09Osm-HVLvy-rueHBo9Eub_WA716wOyQ/exec","embedParam":false,"openMode":"redirect"};
+      const config={"appUrl":"https://script.google.com/macros/s/AKfycbzqLsc0hicwbGaXVyKuBsM15xZAyXTyiHTQBxc_i0gMJEoSOToX4k2vyreH-U7-SfOevg/exec","embedParam":true};
       // A new baked URL must not be shadowed by a manual value from an older deployment.
       const storageKey='launcher-override:'+location.pathname+':'+config.appUrl;
       const params=new URLSearchParams(location.search);
@@ -95,18 +91,6 @@
         location.reload();
       });
       if(params.has('setup')||!url){showSetup();return;}
-      if(config.openMode==='redirect'){
-        const standalone=window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
-        if(standalone){
-          statusText.textContent='Открываю приложение…';
-          setTimeout(()=>location.replace(url),120);
-        }else{
-          statusText.hidden=true;
-          document.getElementById('installOpen').href=url;
-          document.getElementById('install').hidden=false;
-        }
-        return;
-      }
       let target=new URL(url);
       if(config.embedParam && target.hostname==='script.google.com')target.searchParams.set('embed','1');
       document.getElementById('originalLink').href=url;
